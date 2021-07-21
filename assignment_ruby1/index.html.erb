@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>First Ruby App</title>
+    </head>
+    <body>
+    <% require 'pg' %>
+    <% connection = PG::connect(dbname: "goya") %>
+    <% connection.internal_encoding = "UTF-8" %>
+    <% result = connection.exec("SELECT * FROM crops WHERE quality = true;")%>
+    <% data = []%>
+    <% data.each do |value| %>
+        <% data << '#{value["length"]}  #{value["weight"]}  #{value["quality"]}  #{value["give_for"]}  #{value["date"]}'%>
+    <% end %>
+    <h1>WELCOME TO MY FIRST RUBY APP</h1>
+    <form action="true_data.cgi" method="POST">
+        <input type="text" name="goya" value="<%= data.join(' ')%>">
+        <button style="margin: 20px" type="submit"> ACCES TO TRUE DATA</button>
+    </form>
+    <form action="false_data.cgi" method="POST">
+         <button style="margin: 20px"> ACCESS TO FALSE DATA</button>
+    </form>
+    </body>
+</html>
